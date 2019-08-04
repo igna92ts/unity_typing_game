@@ -7,9 +7,9 @@ public class Bullet : MonoBehaviour {
     public float bulletSpeed = 2f;
     public void SetTarget(Word targetWord) {
         this.targetWord = targetWord;
+        transform.up = targetWord.GetPosition().normalized;
     }
     void Update() {
-        transform.up = targetWord.GetPosition().normalized;
         transform.position = Vector2.MoveTowards(transform.position, targetWord.GetPosition(), Time.deltaTime * bulletSpeed);
         if ((Vector2)transform.position == targetWord.GetPosition()) {
             targetWord.RemoveLetterDisplayed();

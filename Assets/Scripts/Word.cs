@@ -23,11 +23,10 @@ public class Word {
         typeIndex++;
     }
     public void RemoveLetterDisplayed() {
+        display.RemoveLetter();
         if (display.AllLettersRemoved()) {
             display.RemoveWord();
-        } else { 
-            display.RemoveLetter();
-        }
+        } 
     }
 
     public Vector2 GetPosition() {

@@ -11,7 +11,6 @@ public class Starfield : MonoBehaviour
 	public float FieldWidth = 20f;
 	public float FieldHeight = 25f;
 	public bool Colorize = false;
-    public float ParallaxFactor = 0f;
     Transform mainCam;
 	
 	float xOffset;
@@ -52,7 +51,7 @@ public class Starfield : MonoBehaviour
     }
 
     void Update () {
-		for ( int i=0; i<MaxStars; i++ ) {
+		for (int i=0; i < MaxStars; i++) {
 			Vector3 pos = Stars[i].position + transform.position;
  
 			if (pos.y < (mainCam.position.y - yOffset)) {
