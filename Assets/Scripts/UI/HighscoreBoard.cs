@@ -16,6 +16,7 @@ public class HighscoreBoard : MonoBehaviour {
     public Transform entryContainer;
     public Transform entryTemplate;
     List<HighscoreEntry> highscoreEntries = new List<HighscoreEntry>();
+    List<Transform> renderedEntries = new List<Transform>();
     string scorePrefsKey = "coreTable";
 
     public void DrawScoreTable() {
@@ -23,7 +24,7 @@ public class HighscoreBoard : MonoBehaviour {
         var highscores = JsonUtility.FromJson<Highscores>(PlayerPrefs.GetString(scorePrefsKey));
         if (highscores != null) {
             for (int i = 0; i < highscores.highscoreList.Count; i++) {
-                AddHighscoreEntry(highscores.highscoreList[i], i + 1);
+                AddHighscoreEntry(highscores.highscoreList[i], i);
             }
         }
     }
@@ -50,14 +51,20 @@ public class HighscoreBoard : MonoBehaviour {
         }
         return rankString;
     }
-    public void AddHighscoreEntry(HighscoreEntry entry, int position) {
-        Transform entryTransform = Instantiate(entryTemplate, entryContainer); 
+    public void AddHighscoreEntry(HighscoreEntry entry, int index) {
+        Transform entryTransform;
+        if (renderedEntries.Count > index && renderedEntries[index] != null) {
+            entryTransform = renderedEntries[index];
+        } else {
+            entryTransform = Instantiate(entryTemplate, entryContainer); 
+            renderedEntries.Add(entryTransform);
+        }
         entryTransform.gameObject.SetActive(true);
 
-        entryTransform.Find("pos").GetComponent<TMPro.TextMeshProUGUI>().text = GetRankText(position); // to avoid 0
+        entryTransform.Find("pos").GetComponent<TMPro.TextMeshProUGUI>().text = GetRankText(index + 1); // to avoid 0
         entryTransform.Find("score").GetComponent<TMPro.TextMeshProUGUI>().text = entry.score.ToString();
         entryTransform.Find("name").GetComponent<TMPro.TextMeshProUGUI>().text = entry.name;
 
-        entryTransform.gameObject.GetComponent<Image>().enabled = position % 2 == 0 ? false : true;
+        entryTransform.gameObject.GetComponent<Image>().enabled = index % 2 == 0 ? true : false;
     }
 }

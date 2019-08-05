@@ -28,6 +28,9 @@ public class UIManager : MonoBehaviour {
     public void SkipScoreUploadButton() {
         gameStateManager.GameEvent = GameEvents.SKIPPED_UPLOAD;
     }
+    public void HighscoreButton() {
+        gameStateManager.GameEvent = GameEvents.HIGH_SCORES;
+    }
         
     public void Clear() {
         this.keyBoard.SetActive(false);

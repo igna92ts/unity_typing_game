@@ -25,8 +25,12 @@ public class MainMenuState : State<GameStateManager> {
 
     }
     public override void UpdateState(GameStateManager owner) {
-        if (owner.GameEvent == GameEvents.NEW_GAME) {
+        var gameEvent = owner.GameEvent;
+        if (gameEvent == GameEvents.NEW_GAME) {
            owner.stateMachine.ChangeState(PlayingState.Instance);
+        }
+        if (gameEvent == GameEvents.HIGH_SCORES) {
+            owner.stateMachine.ChangeState(ScoreBoardState.Instance);
         }
     }
 }

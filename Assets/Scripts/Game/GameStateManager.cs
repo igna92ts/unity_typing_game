@@ -9,7 +9,8 @@ public enum GameEvents {
     PLAYER_DIED = 3,
     UPLOADED_SCORE = 4,
     SKIPPED_UPLOAD = 5,
-    BACK_TO_TITLE = 6 
+    BACK_TO_TITLE = 6,
+    HIGH_SCORES = 7 
 }
 public class GameStateManager : MonoBehaviour {
     public StateMachine<GameStateManager> stateMachine;

@@ -12,16 +12,7 @@ public class JsonLoader : MonoBehaviour {
     [SerializeField]
 
     public static string[] LoadDictionary() {
-        string filePath = Path.Combine(Application.streamingAssetsPath, gameDataFileName);
-
-        if(File.Exists(filePath)) {
-            string dataAsJson = File.ReadAllText(filePath); 
-            Words loadedData = JsonUtility.FromJson<Words>(dataAsJson);
-            return loadedData.values;
-        }
-        else {
-            Debug.LogError("Cannot load word data!");
-            return null;
-        }
+        var textFile = Resources.Load<TextAsset>("dictionary");
+        return JsonUtility.FromJson<Words>(textFile.ToString()).values;
     }
 }
