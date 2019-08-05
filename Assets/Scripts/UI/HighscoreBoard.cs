@@ -8,26 +8,35 @@ public class HighscoreBoard : MonoBehaviour {
     [System.Serializable]
     private class Highscores {
         public List<HighscoreEntry> highscoreList;
+        public Highscores() {
+            highscoreList = new List<HighscoreEntry>();
+        }
     }
 
     public Transform entryContainer;
     public Transform entryTemplate;
     List<HighscoreEntry> highscoreEntries = new List<HighscoreEntry>();
+    string scorePrefsKey = "coreTable";
 
     public void DrawScoreTable() {
         entryTemplate.gameObject.SetActive(false);
-        var highscores = JsonUtility.FromJson<Highscores>(PlayerPrefs.GetString("highscoreTable"));
-        for (int i = 0; i < highscores.highscoreList.Count; i++) {
-            AddHighscoreEntry(highscores.highscoreList[i], i + 1);
+        var highscores = JsonUtility.FromJson<Highscores>(PlayerPrefs.GetString(scorePrefsKey));
+        if (highscores != null) {
+            for (int i = 0; i < highscores.highscoreList.Count; i++) {
+                AddHighscoreEntry(highscores.highscoreList[i], i + 1);
+            }
         }
     }
 
     public void SaveHighscore(int score, string name) {
-        var highscores = JsonUtility.FromJson<Highscores>(PlayerPrefs.GetString("highscoreTable"));
+        var highscores = JsonUtility.FromJson<Highscores>(PlayerPrefs.GetString(scorePrefsKey));
+        if (highscores == null) {
+            highscores = new Highscores();
+        }
         highscores.highscoreList.Add(new HighscoreEntry { score = score, name = name });
         highscores.highscoreList = highscores.highscoreList.OrderBy(entry => entry.score).Reverse().ToList();
         var json = JsonUtility.ToJson(highscores);
-        PlayerPrefs.SetString("highscoreTable", json);
+        PlayerPrefs.SetString(scorePrefsKey, json);
         PlayerPrefs.Save();
     }
 
@@ -49,6 +58,6 @@ public class HighscoreBoard : MonoBehaviour {
         entryTransform.Find("score").GetComponent<TMPro.TextMeshProUGUI>().text = entry.score.ToString();
         entryTransform.Find("name").GetComponent<TMPro.TextMeshProUGUI>().text = entry.name;
 
-        entryTransform.gameObject.GetComponent<Image>().enabled = position % 2 == 0 ? true : false;
+        entryTransform.gameObject.GetComponent<Image>().enabled = position % 2 == 0 ? false : true;
     }
 }

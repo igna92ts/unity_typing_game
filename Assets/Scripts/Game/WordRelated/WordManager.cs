@@ -76,7 +76,7 @@ public class WordManager : MonoBehaviour {
         }
         if (speedCounter >= increaseSpeedStep) {
             wordTimer.IncreaseSpeed();
-            wordFallSpeed += .05f;
+            wordFallSpeed += .1f;
             speedCounter = 0;
         }
     }
