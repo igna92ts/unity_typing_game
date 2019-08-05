@@ -25,6 +25,8 @@ public class UIManager : MonoBehaviour {
     }
     public void InGameUI() {
         Clear();
-        this.keyBoard.SetActive(true);
+        #if UNITY_IOS || UNITY_ANDROID
+            this.keyBoard.SetActive(true);
+        #endif
     }
 }

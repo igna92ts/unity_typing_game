@@ -7,12 +7,12 @@ public class Word {
     public string word;
     private int typeIndex = 0;
     WordDisplay display;
-    public Word(string word, WordDisplay display) {
+    public Word(string word, WordDisplay display, float fallSpeed, Transform target) {
         this.word = word;
         this.typeIndex = 0;
 
         this.display = display;
-        this.display.SetWord(word);
+        this.display.SetWord(word, fallSpeed, target);
     }
 
     public char GetNextLetter() {
@@ -31,6 +31,10 @@ public class Word {
 
     public Vector2 GetPosition() {
         return display.gameObject.transform.position;
+    }
+
+    public void SelfDestroy() {
+        display.RemoveWord();
     }
 
     public bool WordTyped() {

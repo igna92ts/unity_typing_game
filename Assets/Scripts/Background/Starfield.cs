@@ -8,8 +8,8 @@ public class Starfield : MonoBehaviour
 	public int MaxStars = 100;
 	public float StarSize = 0.1f;
 	public float StarSizeRange = 0.5f;
-	public float FieldWidth = 20f;
-	public float FieldHeight = 25f;
+	float FieldWidth = 20f;
+	float FieldHeight = 25f;
 	public bool Colorize = false;
     Transform mainCam;
 	
@@ -23,6 +23,11 @@ public class Starfield : MonoBehaviour
 	void Awake () {
 		Stars = new ParticleSystem.Particle[ MaxStars ];
 		Particles = GetComponent<ParticleSystem>();
+		Camera cam = Camera.main;
+		float camHeight = 2f * cam.orthographicSize;
+		float camWidth = camHeight * cam.aspect;
+		FieldHeight = camHeight;
+		FieldWidth = camWidth;
  
 		Assert.IsNotNull( Particles, "Particle system missing from object!" );
  

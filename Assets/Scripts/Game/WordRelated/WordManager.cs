@@ -7,14 +7,34 @@ public class WordManager : MonoBehaviour {
 
     bool hasActiveWord;
     Word activeWord;
+    public int clearedWords = 0;
     public Shooting shooter;
     WordSpawner wordSpawner;
-    void Start() {
+    WordTimer wordTimer;
+    int speedCounter = 0;
+    int increaseSpeedStep = 1;
+    float wordFallSpeed;
+    public GameObject player;
+    void Awake() {
         wordSpawner = GetComponent<WordSpawner>();
+        wordTimer = GetComponent<WordTimer>();
     }
     public void AddWord() {
-        Word word = new Word(WordGenerator.GetRandomWord(), wordSpawner.SpawnWord());
+        Word word = new Word(WordGenerator.GetRandomWord(), wordSpawner.SpawnWord(), wordFallSpeed, player.transform);
         words.Add(word);
+    }
+    public void Clear() {
+        activeWord = null;
+        hasActiveWord = false;
+        speedCounter = 0;
+        wordFallSpeed = 1f;
+        foreach(Word w in words) {
+            w.SelfDestroy();
+        }
+        words.Clear();
+        wordTimer.Clear();
+        wordTimer.TurnOn();
+        clearedWords = 0;
     }
 
     public void TypeLetter(char letter) {
@@ -38,6 +58,13 @@ public class WordManager : MonoBehaviour {
         if (hasActiveWord && activeWord.WordTyped()) {
             hasActiveWord = false;
             words.Remove(activeWord);
+            clearedWords++;
+            speedCounter++;
+        }
+        if (speedCounter >= increaseSpeedStep) {
+            wordTimer.IncreaseSpeed();
+            wordFallSpeed += .01f;
+            speedCounter = 0;
         }
     }
 }

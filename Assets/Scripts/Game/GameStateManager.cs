@@ -4,16 +4,25 @@ using UnityEngine;
 
 public enum GameEvents {
     NOOP = 0,
-    NEW_GAME = 1 
+    NEW_GAME = 1,
+    PLAYER_LOST_LIFE = 2 
 }
 public class GameStateManager : MonoBehaviour {
     public StateMachine<GameStateManager> stateMachine;
     public UIManager uiManager;
     GameEvents gameEvent = GameEvents.NOOP;
-    public GameEvents GameEvent { get; set; }
+    public GameEvents GameEvent {
+        get {
+            var e = gameEvent;
+            gameEvent = GameEvents.NOOP;
+            return e;
+        }
+        set { gameEvent = value; }
+    }
     //// GAME ELEMENTS
     public GameObject player;
-    public GameObject wordManager;
+    public WordManager wordManager;
+    public int score = 0;
     void Start() {
         uiManager = GetComponent<UIManager>();
 
@@ -22,6 +31,9 @@ public class GameStateManager : MonoBehaviour {
     }
     // Update is called once per frame
     void Update() {
-       stateMachine.Update();
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            ScreenShake.Shake(.1f);
+        }
+        stateMachine.Update();
     }
 }

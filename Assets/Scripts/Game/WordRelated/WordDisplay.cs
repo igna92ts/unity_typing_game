@@ -5,17 +5,18 @@ using UnityEngine.UI;
 
 public class WordDisplay : MonoBehaviour {
     public Text text;
-    Stack<char> removedCharacters = new Stack<char>();
-    float fallSpeed = 2;
-    public void SetWord(string word) {
+    float fallSpeed;
+    Transform target;
+    public void SetWord(string word, float fallSpeed, Transform target) {
+        this.fallSpeed = fallSpeed;
         if (text == null) {
             text = GetComponent<Text>();
         }
         text.text = word;
+        this.target = target;
     }
 
     public void RemoveLetter() {
-        removedCharacters.Push(text.text[0]);
         text.text = text.text.Remove(0, 1);
         text.color = Color.red;
     }
@@ -26,7 +27,12 @@ public class WordDisplay : MonoBehaviour {
     public void RemoveWord() {
         Destroy(gameObject);
     }
+    float moveTowardsMinDistance = 10f;
     void Update() {
-        transform.Translate(0f, -fallSpeed * Time.deltaTime, 0f);
+        if (Vector2.Distance(transform.position, target.position) <= moveTowardsMinDistance) {
+            transform.position = Vector2.MoveTowards(transform.position, target.position, Time.deltaTime * fallSpeed);
+        } else {
+            transform.Translate(0f, -fallSpeed * Time.deltaTime, 0f);
+        }
     }
 }
