@@ -32,7 +32,11 @@ public class PlayingState : State<GameStateManager> {
         owner.wordManager.Clear();
     }
     public override void ExitState(GameStateManager owner) {
+        owner.player.Clear();
+        owner.player.gameObject.SetActive(false);
 
+        owner.wordManager.Clear();
+        owner.wordManager.gameObject.SetActive(false);
     }
     public override void UpdateState(GameStateManager owner) {
         owner.score = owner.wordManager.clearedWords * 100;
@@ -41,8 +45,8 @@ public class PlayingState : State<GameStateManager> {
             ScreenShake.Shake(.2f);
             owner.wordManager.PlayerHitClear();
         }
-        if (owner.player.lives == 0) {
-            // owner.stateMachine.ChangeState(ScoreUploadState.Instance);
+        if (owner.GameEvent == GameEvents.PLAYER_DIED) {
+            owner.stateMachine.ChangeState(ScoreUploadState.Instance);
         }
     }
 }

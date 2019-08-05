@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour {
     public GameObject keyBoard;
     public GameObject lifeCounter;
     public GameObject mainMenuObjects;
+    public GameObject scoreElements;
     GameStateManager gameStateManager;
     void Start() {
         gameStateManager = GetComponent<GameStateManager>();
@@ -31,6 +32,9 @@ public class UIManager : MonoBehaviour {
             this.keyBoard.SetActive(true);
         #endif
         lifeCounter.SetActive(true);
+    }
+    public void ScoreUpload() {
+        Clear();
     }
     public void ShowLifeCount(int lifeCount) {
         lifeCounter.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = lifeCount.ToString();

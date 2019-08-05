@@ -5,7 +5,8 @@ using UnityEngine;
 public enum GameEvents {
     NOOP = 0,
     NEW_GAME = 1,
-    PLAYER_LOST_LIFE = 2 
+    PLAYER_LOST_LIFE = 2,
+    PLAYER_DIED = 3 
 }
 public class GameStateManager : MonoBehaviour {
     public StateMachine<GameStateManager> stateMachine;

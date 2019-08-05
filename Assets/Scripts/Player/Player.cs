@@ -10,7 +10,11 @@ public class Player : MonoBehaviour {
     }
     void PlayerLostLife() {
         lives--;
-        gameStateManager.GameEvent = GameEvents.PLAYER_LOST_LIFE;
+        if (lives > 0) {
+            gameStateManager.GameEvent = GameEvents.PLAYER_LOST_LIFE;
+        } else {
+            gameStateManager.GameEvent = GameEvents.PLAYER_DIED;
+        }
     }
     public void Clear() {
         lives = 5;
