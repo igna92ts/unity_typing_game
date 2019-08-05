@@ -7,7 +7,8 @@ public class Bullet : MonoBehaviour {
     public float bulletSpeed = 2f;
     public void SetTarget(Word targetWord) {
         this.targetWord = targetWord;
-        transform.up = targetWord.GetPosition().normalized;
+        var targetPosition = targetWord.GetPosition().normalized;
+        transform.up = new Vector2(targetPosition.x, targetPosition.y);
     }
     void Update() {
         transform.position = Vector2.MoveTowards(transform.position, targetWord.GetPosition(), Time.deltaTime * bulletSpeed);

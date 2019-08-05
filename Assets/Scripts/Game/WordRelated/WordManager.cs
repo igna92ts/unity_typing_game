@@ -37,6 +37,15 @@ public class WordManager : MonoBehaviour {
         clearedWords = 0;
     }
 
+    public void PlayerHitClear() {
+        activeWord = null;
+        hasActiveWord = false;
+        foreach(Word w in words) {
+            w.SelfDestroy();
+        }
+        words.Clear();
+    }
+
     public void TypeLetter(char letter) {
         if (hasActiveWord) {
             if (activeWord.GetNextLetter() == letter) {
@@ -63,7 +72,7 @@ public class WordManager : MonoBehaviour {
         }
         if (speedCounter >= increaseSpeedStep) {
             wordTimer.IncreaseSpeed();
-            wordFallSpeed += .01f;
+            wordFallSpeed += .05f;
             speedCounter = 0;
         }
     }

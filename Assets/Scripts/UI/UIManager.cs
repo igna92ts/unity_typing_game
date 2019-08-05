@@ -5,6 +5,7 @@ using UnityEngine;
 public class UIManager : MonoBehaviour {
 
     public GameObject keyBoard;
+    public GameObject lifeCounter;
     public GameObject mainMenuObjects;
     GameStateManager gameStateManager;
     void Start() {
@@ -18,6 +19,7 @@ public class UIManager : MonoBehaviour {
     public void Clear() {
         this.keyBoard.SetActive(false);
         this.mainMenuObjects.SetActive(false);
+        this.lifeCounter.SetActive(false);
     }
     public void MainMenu() {
         Clear();
@@ -28,5 +30,9 @@ public class UIManager : MonoBehaviour {
         #if UNITY_IOS || UNITY_ANDROID
             this.keyBoard.SetActive(true);
         #endif
+        lifeCounter.SetActive(true);
+    }
+    public void ShowLifeCount(int lifeCount) {
+        lifeCounter.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = lifeCount.ToString();
     }
 }

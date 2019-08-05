@@ -20,7 +20,7 @@ public class GameStateManager : MonoBehaviour {
         set { gameEvent = value; }
     }
     //// GAME ELEMENTS
-    public GameObject player;
+    public Player player;
     public WordManager wordManager;
     public int score = 0;
     void Start() {
