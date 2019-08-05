@@ -8,6 +8,7 @@ public class WordManager : MonoBehaviour {
     bool hasActiveWord;
     Word activeWord;
     public int clearedWords = 0;
+    public int clearedLetters = 0;
     public Shooting shooter;
     WordSpawner wordSpawner;
     WordTimer wordTimer;
@@ -35,6 +36,7 @@ public class WordManager : MonoBehaviour {
         wordTimer.Clear();
         wordTimer.TurnOn();
         clearedWords = 0;
+        clearedLetters = 0;
     }
 
     public void PlayerHitClear() {
@@ -49,12 +51,14 @@ public class WordManager : MonoBehaviour {
     public void TypeLetter(char letter) {
         if (hasActiveWord) {
             if (activeWord.GetNextLetter() == letter) {
+                clearedLetters++;
                 activeWord.TypeLetter();
                 shooter.Shoot(activeWord);
             }
         } else {
             foreach(Word word in words) {
                 if (word.GetNextLetter() == letter) {
+                    clearedLetters++;
                     activeWord = word;
                     hasActiveWord = true;
                     word.TypeLetter();

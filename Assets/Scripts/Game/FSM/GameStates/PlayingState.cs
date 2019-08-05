@@ -23,10 +23,6 @@ public class PlayingState : State<GameStateManager> {
 
         owner.player.gameObject.SetActive(true);
         owner.player.Clear();
-        #if !UNITY_IOS && !UNITY_ANDROID
-            var playerPosition = owner.player.transform.position;
-            owner.player.transform.position = new Vector2(0, -15);
-        #endif
 
         owner.wordManager.gameObject.SetActive(true);
         owner.wordManager.Clear();
@@ -34,18 +30,19 @@ public class PlayingState : State<GameStateManager> {
     public override void ExitState(GameStateManager owner) {
         owner.player.Clear();
         owner.player.gameObject.SetActive(false);
-
-        owner.wordManager.Clear();
-        owner.wordManager.gameObject.SetActive(false);
     }
+    int wordScoreValue = 100;
+    int letterScoreValue = 1;
     public override void UpdateState(GameStateManager owner) {
-        owner.score = owner.wordManager.clearedWords * 100;
+        var gameEvent = owner.GameEvent;
+
+        owner.score = owner.wordManager.clearedWords * wordScoreValue + owner.wordManager.clearedLetters * letterScoreValue;
         owner.uiManager.ShowLifeCount(owner.player.lives);
-        if (owner.GameEvent == GameEvents.PLAYER_LOST_LIFE) {
+        if (gameEvent == GameEvents.PLAYER_LOST_LIFE) {
             ScreenShake.Shake(.2f);
             owner.wordManager.PlayerHitClear();
         }
-        if (owner.GameEvent == GameEvents.PLAYER_DIED) {
+        if (gameEvent == GameEvents.PLAYER_DIED) {
             owner.stateMachine.ChangeState(ScoreUploadState.Instance);
         }
     }

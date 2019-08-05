@@ -5,7 +5,7 @@ using UnityEngine;
 public class Shooting : MonoBehaviour {
     public GameObject bulletPrefab;
     Transform shootingPoint;
-    Vector2 rotationDest;
+    public Vector2 rotationDest;
     void Start() {
         shootingPoint = transform.Find("ShootingPoint");
     }

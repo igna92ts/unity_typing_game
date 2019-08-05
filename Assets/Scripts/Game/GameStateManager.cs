@@ -6,7 +6,10 @@ public enum GameEvents {
     NOOP = 0,
     NEW_GAME = 1,
     PLAYER_LOST_LIFE = 2,
-    PLAYER_DIED = 3 
+    PLAYER_DIED = 3,
+    UPLOADED_SCORE = 4,
+    SKIPPED_UPLOAD = 5,
+    BACK_TO_TITLE = 6 
 }
 public class GameStateManager : MonoBehaviour {
     public StateMachine<GameStateManager> stateMachine;
@@ -23,6 +26,7 @@ public class GameStateManager : MonoBehaviour {
     //// GAME ELEMENTS
     public Player player;
     public WordManager wordManager;
+    public HighscoreBoard highscoreBoard;
     public int score = 0;
     void Start() {
         uiManager = GetComponent<UIManager>();
