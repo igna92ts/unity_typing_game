@@ -22,10 +22,12 @@ public class WordTimer : MonoBehaviour {
         shouldRun = false;
     }
 
+    int bombPercentChance = 10;
     void Update() {
         if (shouldRun) {
             if (Time.time >= nextWordTime) {
-                wordManager.AddWord();
+                var wordType = Random.Range(0, 100) < bombPercentChance ? WordTypes.TIME_BOMB : WordTypes.NORMAL;
+                wordManager.AddWord(wordType);
                 nextWordTime = Time.time + wordDelay;
             }
         }

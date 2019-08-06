@@ -8,6 +8,7 @@ public class WordDisplay : MonoBehaviour {
     float fallSpeed;
     Transform target;
     Color initialColor;
+    bool shouldRun = true;
     Transform enemySpriteTransform;
 
     void OnEnable() {
@@ -15,14 +16,21 @@ public class WordDisplay : MonoBehaviour {
             enemySpriteTransform = transform.Find("EnemySprite");
         enemySpriteTransform.up = Vector2.down;
     }
-    public void SetWord(string word, float fallSpeed, Transform target) {
+    public void SetWord(string word, float fallSpeed, Transform target, WordTypes wordType) {
         this.fallSpeed = fallSpeed;
         if (text == null) {
             text = GetComponent<TMPro.TextMeshProUGUI>();
         }
         text.text = word;
         initialColor = text.color;
+        text.color = GetWordColor(wordType);
         this.target = target;
+    }
+    Color GetWordColor(WordTypes wordType) {
+        switch(wordType) {
+            case WordTypes.TIME_BOMB: return Color.green;
+            default: return Color.white;
+        }
     }
 
     public void RemoveLetter() {
@@ -39,13 +47,18 @@ public class WordDisplay : MonoBehaviour {
     }
     float moveTowardsMinDistance = 15f;
     void Update() {
-        if (transform.position.y - target.position.y <= moveTowardsMinDistance) {
-            transform.position = Vector2.MoveTowards(transform.position, target.position, Time.deltaTime * fallSpeed);
+        if (shouldRun) {
+            if (transform.position.y - target.position.y <= moveTowardsMinDistance) {
+                transform.position = Vector2.MoveTowards(transform.position, target.position, Time.deltaTime * fallSpeed);
 
-            var direction = (Vector2)(target.position - enemySpriteTransform.position).normalized;
-            enemySpriteTransform.up = direction;
-        } else {
-            transform.Translate(0f, -fallSpeed * Time.deltaTime, 0f);
+                var direction = (Vector2)(target.position - enemySpriteTransform.position).normalized;
+                enemySpriteTransform.up = direction;
+            } else {
+                transform.Translate(0f, -fallSpeed * Time.deltaTime, 0f);
+            }
         }
+    }
+    public void TogglePause() {
+        shouldRun = !shouldRun;
     }
 }

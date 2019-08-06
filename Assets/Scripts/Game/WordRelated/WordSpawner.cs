@@ -22,9 +22,6 @@ public class WordSpawner : MonoBehaviour {
         }
     }
     public WordDisplay SpawnWord() { 
-        // GameObject wordObj = Instantiate(wordPrefab, new Vector2(Random.Range(-spawnSpan, spawnSpan), 20), Quaternion.identity, wordCanvas);
-        // return wordObj.GetComponent<WordDisplay>();
-
         foreach(GameObject word in wordDisplayPool) {
             if (!word.activeInHierarchy) {
                 word.transform.position = new Vector2(Random.Range(-spawnSpan, spawnSpan), 20);

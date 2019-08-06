@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class WordManager : MonoBehaviour {
-    public List<Word> words;
+    public List<Word> words = new List<Word>();
 
     bool hasActiveWord;
     Word activeWord;
@@ -20,8 +20,8 @@ public class WordManager : MonoBehaviour {
         wordSpawner = GetComponent<WordSpawner>();
         wordTimer = GetComponent<WordTimer>();
     }
-    public void AddWord() {
-        Word word = new Word(WordGenerator.GetRandomWord(), wordSpawner.SpawnWord(), wordFallSpeed, player.transform);
+    public void AddWord(WordTypes wordType = WordTypes.NORMAL) {
+        Word word = new Word(WordGenerator.GetRandomWord(), wordSpawner.SpawnWord(), wordFallSpeed, player.transform, wordType);
         words.Add(word);
     }
     public void Clear() {
@@ -71,6 +71,9 @@ public class WordManager : MonoBehaviour {
         if (hasActiveWord && activeWord.WordTyped()) {
             hasActiveWord = false;
             words.Remove(activeWord);
+            if (activeWord.wordType == WordTypes.TIME_BOMB) {
+                StartCoroutine(FreezeTimer());
+            }
             clearedWords++;
             speedCounter++;
         }
@@ -78,6 +81,17 @@ public class WordManager : MonoBehaviour {
             wordTimer.IncreaseSpeed();
             wordFallSpeed += .1f;
             speedCounter = 0;
+        }
+    }
+    float freezeTime = 3f;
+    IEnumerator FreezeTimer() {
+        wordTimer.TurnOff();
+        foreach(Word word in words) {
+            word.TogglePause();
+        }
+        yield return new WaitForSeconds(freezeTime);
+        foreach(Word word in words) {
+            word.TogglePause();
         }
     }
 }
