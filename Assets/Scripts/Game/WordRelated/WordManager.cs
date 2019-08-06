@@ -93,5 +93,6 @@ public class WordManager : MonoBehaviour {
         foreach(Word word in words) {
             word.TogglePause();
         }
+        wordTimer.TurnOn();
     }
 }
