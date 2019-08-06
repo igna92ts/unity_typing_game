@@ -5,16 +5,16 @@ using UnityEngine;
 public class Shooting : MonoBehaviour {
     public GameObject bulletPrefab;
     Transform shootingPoint;
-    public Vector2 rotationDest;
+    Word targetWord;
     void Start() {
         shootingPoint = transform.Find("ShootingPoint");
     }
     public void Shoot(Word targetWord) {
-        rotationDest = targetWord.GetPosition().normalized;
+        this.targetWord = targetWord;
         var bullet = Instantiate(bulletPrefab, shootingPoint.position, Quaternion.identity);
         bullet.GetComponent<Bullet>().SetTarget(targetWord);
-    }
-    void Update() {
-        transform.up = Vector2.MoveTowards(transform.up, new Vector2(rotationDest.x, rotationDest.y), Time.deltaTime * 10f);
+
+        var direction = (targetWord.GetPosition() - (Vector2)transform.position).normalized;
+        transform.up = direction;
     }
 }

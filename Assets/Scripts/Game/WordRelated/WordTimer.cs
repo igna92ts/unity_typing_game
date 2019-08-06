@@ -13,7 +13,7 @@ public class WordTimer : MonoBehaviour {
     }
 
     public void IncreaseSpeed() {
-        wordDelay -= .01f;
+        wordDelay -= .05f;
     }
 
     public void Clear() {

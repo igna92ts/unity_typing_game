@@ -4,15 +4,24 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class WordDisplay : MonoBehaviour {
-    public Text text;
+    public TMPro.TextMeshProUGUI text;
     float fallSpeed;
     Transform target;
+    Color initialColor;
+    Transform enemySpriteTransform;
+
+    void OnEnable() {
+        if (enemySpriteTransform == null)
+            enemySpriteTransform = transform.Find("EnemySprite");
+        enemySpriteTransform.up = Vector2.down;
+    }
     public void SetWord(string word, float fallSpeed, Transform target) {
         this.fallSpeed = fallSpeed;
         if (text == null) {
-            text = GetComponent<Text>();
+            text = GetComponent<TMPro.TextMeshProUGUI>();
         }
         text.text = word;
+        initialColor = text.color;
         this.target = target;
     }
 
@@ -25,12 +34,16 @@ public class WordDisplay : MonoBehaviour {
     }
 
     public void RemoveWord() {
-        Destroy(gameObject);
+        text.color = initialColor;
+        this.gameObject.SetActive(false);
     }
     float moveTowardsMinDistance = 10f;
     void Update() {
         if (Vector2.Distance(transform.position, target.position) <= moveTowardsMinDistance) {
             transform.position = Vector2.MoveTowards(transform.position, target.position, Time.deltaTime * fallSpeed);
+
+            var direction = (Vector2)(target.position - enemySpriteTransform.position).normalized;
+            enemySpriteTransform.up = direction;
         } else {
             transform.Translate(0f, -fallSpeed * Time.deltaTime, 0f);
         }

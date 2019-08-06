@@ -2023,7 +2023,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 3483666146215991720, guid: 0b1f9e5be324f40f5917ee204ae3426b,
     type: 3}
-  rotationDest: {x: 0, y: 0}
 --- !u!50 &140356573
 Rigidbody2D:
   serializedVersion: 4
@@ -2073,8 +2072,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e71378aec78f4a16a3b06379ea5c6b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lives: 1
-  maxLives: 1
+  lives: 3
+  maxLives: 3
   keyBoard: {fileID: 2058165893}
   gameStateManager: {fileID: 128824150}
 --- !u!1 &143290246

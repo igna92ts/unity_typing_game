@@ -30,7 +30,6 @@ public class Player : MonoBehaviour {
         }
     }
     public void Clear() {
-        GetComponent<Shooting>().rotationDest = Vector2.up;
         transform.position = startPosition;
         lives = maxLives;
     }
