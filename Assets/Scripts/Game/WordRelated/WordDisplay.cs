@@ -37,9 +37,9 @@ public class WordDisplay : MonoBehaviour {
         text.color = initialColor;
         this.gameObject.SetActive(false);
     }
-    float moveTowardsMinDistance = 10f;
+    float moveTowardsMinDistance = 15f;
     void Update() {
-        if (Vector2.Distance(transform.position, target.position) <= moveTowardsMinDistance) {
+        if (transform.position.y - target.position.y <= moveTowardsMinDistance) {
             transform.position = Vector2.MoveTowards(transform.position, target.position, Time.deltaTime * fallSpeed);
 
             var direction = (Vector2)(target.position - enemySpriteTransform.position).normalized;

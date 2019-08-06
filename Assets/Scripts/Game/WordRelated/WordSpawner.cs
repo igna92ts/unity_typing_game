@@ -12,7 +12,7 @@ public class WordSpawner : MonoBehaviour {
 		Camera cam = Camera.main;
 		float camHeight = 2f * cam.orthographicSize;
 		float camWidth = camHeight * cam.aspect;
-        spawnSpan = (camWidth * .7f) / 2; // 70% of the screen
+        spawnSpan = (camWidth * .6f) / 2; // 70% of the screen
 
         wordDisplayPool = new List<GameObject>();
         for (int i = 0; i < wordPoolAmount; i++) {
